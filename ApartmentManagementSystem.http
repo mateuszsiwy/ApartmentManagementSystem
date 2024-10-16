@@ -1,0 +1,40 @@
+﻿@ApartmentManagementSystem_HostAddress = https://localhost:7013
+
+GET {{ApartmentManagementSystem_HostAddress}}/api/apartment
+
+###
+
+GET {{ApartmentManagementSystem_HostAddress}}/api/apartment/1
+
+###
+
+POST {{ApartmentManagementSystem_HostAddress}}/api/apartment
+Content-Type: application/json
+
+{
+  "name": "test",
+  "address": "123 Sunset Blvd, Cityville",
+  "price": "1200",
+  "numberOfRooms": 3,
+  "ownerId": 1
+}
+
+###
+
+PUT {{ApartmentManagementSystem_HostAddress}}/api/apartment/6
+Content-Type: application/json
+
+ {
+    "id" : 6,
+    "name": "czesc",
+    "address": "123 Sunset Blvd, Cityville",
+    "price": "1200",
+    "numberOfRooms": 3,
+    "ownerId": 1
+  }
+
+###
+
+DELETE {{ApartmentManagementSystem_HostAddress}}/api/apartment/7
+
+###

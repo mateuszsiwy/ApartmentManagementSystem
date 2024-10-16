@@ -11,7 +11,7 @@ namespace ApartmentManagementSystem.Models
         public int NumberOfRooms { get; set; }
 
         public int OwnerId { get; set; }
-        public Owner Owner { get; set; }
-        public ICollection<LeaseAgreement> LeaseAgreements { get; set; }
+        public Owner? Owner { get; set; }
+        public ICollection<LeaseAgreement>? LeaseAgreements { get; set; }
     }
 }
