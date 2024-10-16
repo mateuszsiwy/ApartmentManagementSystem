@@ -38,3 +38,23 @@ Content-Type: application/json
 DELETE {{ApartmentManagementSystem_HostAddress}}/api/apartment/7
 
 ###
+
+GET {{ApartmentManagementSystem_HostAddress}}/api/owner
+
+###
+
+GET {{ApartmentManagementSystem_HostAddress}}/api/owner/1
+
+###
+
+POST {{ApartmentManagementSystem_HostAddress}}/api/owner
+Content-Type: application/json
+
+{
+  "name": "John",
+  "surname": "Doe",
+  "email": "john.doe@example.com",
+  "phoneNumber": "123-456-7890"
+}
+
+###
