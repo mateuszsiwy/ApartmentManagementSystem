@@ -12,6 +12,6 @@ namespace ApartmentManagementSystem.Models
         [DataType(DataType.Date)]
         public DateTime StartOfLease { get; set; }
 
-        public ICollection<LeaseAgreement> LeaseAgreements { get; set; }
+        public ICollection<LeaseAgreement>? LeaseAgreements { get; set; }
     }
 }

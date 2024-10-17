@@ -58,3 +58,106 @@ Content-Type: application/json
 }
 
 ###
+
+PUT {{ApartmentManagementSystem_HostAddress}}/api/owner/4
+Content-Type: application/json
+
+{
+  "id": 4,
+  "name": "Mike",
+  "surname": "Doe",
+  "email": "john.doe@example.com",
+  "phoneNumber": "123-456-7890"
+}
+
+###
+
+DELETE {{ApartmentManagementSystem_HostAddress}}/api/owner/1
+###
+
+
+GET {{ApartmentManagementSystem_HostAddress}}/api/tenant
+
+###
+
+GET {{ApartmentManagementSystem_HostAddress}}/api/tenant/1
+
+###
+
+POST {{ApartmentManagementSystem_HostAddress}}/api/tenant
+Content-Type: application/json
+
+  {
+    "name": "Mickey",
+    "surname": "Johnson",
+    "email": "michael.johnson@example.com",
+    "startOfLease": "2023-01-15T00:00:00"
+  }
+
+###
+
+PUT {{ApartmentManagementSystem_HostAddress}}/api/tenant/1
+Content-Type: application/json
+
+  {
+    "id": 1,
+    "name": "John",
+    "surname": "Johnson",
+    "email": "michael.johnson@example.com",
+    "startOfLease": "2023-01-15T00:00:00"
+  }
+
+###
+  
+DELETE {{ApartmentManagementSystem_HostAddress}}/api/tenant/3
+###
+
+
+GET {{ApartmentManagementSystem_HostAddress}}/api/leaseagreement
+
+###
+
+GET {{ApartmentManagementSystem_HostAddress}}/api/leaseagreement/3
+
+###
+
+  
+
+POST {{ApartmentManagementSystem_HostAddress}}/api/leaseagreement
+Content-Type: application/json
+
+
+  {
+    "apartmentId": 2,
+    "apartment": null,
+    "tenantId": 2,
+    "tenant": null,
+    "startOfLease": "2023-05-01T00:00:00",
+    "endOfLease": "2024-05-01T00:00:00",
+    "rent": "1500"
+  }
+
+
+###
+
+PUT {{ApartmentManagementSystem_HostAddress}}/api/leaseagreement/4
+Content-Type: application/json
+
+
+  {
+    "id": 4,
+    "apartmentId": 2,
+    "apartment": null,
+    "tenantId": 2,
+    "tenant": null,
+    "startOfLease": "2023-05-01T00:00:00",
+    "endOfLease": "2024-05-01T00:00:00",
+    "rent": "5500"
+  }
+
+
+###
+
+      
+DELETE {{ApartmentManagementSystem_HostAddress}}/api/leaseagreement/3
+###

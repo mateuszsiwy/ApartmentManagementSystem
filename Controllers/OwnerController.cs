@@ -35,7 +35,7 @@ namespace ApartmentManagementSystem.Controllers
 
         // POST: api/owner
         [HttpPost]
-        public async Task<ActionResult<Owner>> PostApartment(Owner owner)
+        public async Task<ActionResult<Owner>> PostOwner(Owner owner)
         {
             
             if (ModelState.IsValid)
@@ -47,17 +47,17 @@ namespace ApartmentManagementSystem.Controllers
             return owner;
         }
 
-        // PUT: api/apartment/5
+        // PUT: api/owner/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Apartment>> PutApartment(int id, Apartment apartment)
+        public async Task<ActionResult<Owner>> PutOwner(int id, Owner owner)
         {
-            if (id != apartment.Id)
+            if (id != owner.Id)
             {
                 return BadRequest("ID mismatch.");
             }
 
-            var oldApartment = await _context.Apartments.FirstOrDefaultAsync(a => a.Id == id);
-            if (oldApartment == null)
+            var oldOwner = await _context.Owners.FirstOrDefaultAsync(a => a.Id == id);
+            if (oldOwner == null)
             {
                 return NotFound();
             }
@@ -69,11 +69,12 @@ namespace ApartmentManagementSystem.Controllers
 
             try
             {
-                oldApartment.Name = apartment.Name;
-                oldApartment.Address = apartment.Address;
-                oldApartment.Price = apartment.Price;
-                oldApartment.NumberOfRooms = apartment.NumberOfRooms;
-                oldApartment.OwnerId = apartment.OwnerId;
+                oldOwner.Name = owner.Name;
+                oldOwner.Surname = owner.Surname;
+                oldOwner.Email = owner.Email;
+                oldOwner.PhoneNumber = owner.PhoneNumber;
+                oldOwner.Apartments = owner.Apartments;
+
 
                 await _context.SaveChangesAsync();
             }
@@ -82,22 +83,25 @@ namespace ApartmentManagementSystem.Controllers
                 return NotFound();
             }
 
-            return Ok(oldApartment);
+            return Ok(oldOwner);
         }
 
 
-        //DELETE: api/apartment/5
+        //DELETE: api/owner/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteApartment(int id)
+        public async Task<ActionResult> DeleteOwner(int id)
         {
-            var apartment = await _context.Apartments.FindAsync(id);
-            if (apartment == null)
+            var owner = await _context.Owners.FirstOrDefaultAsync(_ => _.Id == id);
+            if (owner == null)
             {
-                return NotFound();
+                return NotFound("There are no owners with this Id.");
             }
-            var owner = await _context.Owners.FindAsync(apartment.OwnerId);
-            owner.Apartments.Remove(apartment);
-            _context.Apartments.Remove(apartment);
+            if (owner.Apartments != null)
+            {
+                _context.Apartments.RemoveRange(owner.Apartments);
+            }
+            
+            _context.Owners.Remove(owner);
             await _context.SaveChangesAsync();
             return Ok();
         }
