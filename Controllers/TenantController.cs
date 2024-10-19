@@ -40,7 +40,7 @@ namespace ApartmentManagementSystem.Controllers
         {
             if (tenant == null)
             {
-                return BadRequest("Tenant is null.");
+                return BadRequest(new { message = "Tenant is null." });
             }
             if (ModelState.IsValid)
             {
@@ -57,14 +57,14 @@ namespace ApartmentManagementSystem.Controllers
         {
             if (id != tenant.Id)
             {
-                return BadRequest("Ids are not matching.");
+                return BadRequest(new { message = "Ids are not matching." });
             }
 
             var oldTenant = await _context.Tenants.FindAsync(id);
 
             if (oldTenant == null)
             {
-                return NotFound("Tenant not found");
+                return NotFound(new { message = "Tenant not found"});
             }
             if (!ModelState.IsValid)
             {

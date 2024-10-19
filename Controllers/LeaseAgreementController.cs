@@ -54,14 +54,14 @@ namespace ApartmentManagementSystem.Controllers
                 var tenant = await _context.Tenants.FindAsync(leaseAgreementDto.TenantId);
                 if (tenant == null)
                 {
-                    return NotFound("Tenant not found.");
+                    return NotFound(new { message = "Tenant not found." });
                 }
                 tenant.LeaseAgreements.Add(leaseAgreement);
 
                 var apartment = await _context.Apartments.FindAsync(leaseAgreementDto.ApartmentId);
                 if (apartment == null)
                 {
-                    return NotFound("Apartment not found.");
+                    return NotFound(new { message = "Apartment not found." });
                 }
                 apartment.LeaseAgreements.Add(leaseAgreement);
 
@@ -69,7 +69,7 @@ namespace ApartmentManagementSystem.Controllers
                 return leaseAgreementDto;
             }
 
-            return BadRequest("Model state is invalid.");
+            return BadRequest(new { message = "Model state is invalid." });
         }
 
 
@@ -79,7 +79,7 @@ namespace ApartmentManagementSystem.Controllers
         {
             if (id != leaseAgreement.Id)
             {
-                return BadRequest("Ids are not matching.");
+                return BadRequest(new { message = "Ids are not matching." });
             }
 
             var oldLeaseAgreement = await _context.LeaseAgreements.FindAsync(id);

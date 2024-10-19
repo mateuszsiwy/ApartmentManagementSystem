@@ -59,7 +59,7 @@ namespace ApartmentManagementSystem.Controllers
             var oldOwner = await _context.Owners.FirstOrDefaultAsync(a => a.Id == id);
             if (oldOwner == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Owner not found"});
             }
 
             if (!ModelState.IsValid)

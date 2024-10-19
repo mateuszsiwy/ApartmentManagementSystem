@@ -10,9 +10,11 @@ document.getElementById('submitNewRecord').addEventListener('click', submitNewRe
 
 document.getElementById('closeButtonEdit').addEventListener('click', () =>
 {
+    document.getElementById('errorMessage').style.display = 'none';
     $('#recordModal').modal('hide');
 })
 document.getElementById('closeButtonDelete').addEventListener('click', () => {
+    document.getElementById('errorMessage').style.display = 'none';
     $('#deleteModal').modal('hide');
 })
 
@@ -428,7 +430,9 @@ function submitNewRecord() {
                             break;
                     }
                 } else {
-                    console.error('Error adding record');
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || 'Error adding record');
+                    });
                 }
             })
             .catch(error => {
@@ -530,8 +534,9 @@ function submitNewRecord() {
                             break;
                     }
                 } else {
-                    console.error('Error editing record'); 
-                    console.log(response.text());
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || 'Error editing record');
+                    });
                 }
             })
             .catch(error => {

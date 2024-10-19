@@ -40,13 +40,13 @@ namespace ApartmentManagementSystem.Controllers
         {
             if (apartmentDto.OwnerId == 0)
             {
-                return BadRequest("Owner information is required.");
+                return BadRequest(new { message = "Owner information is required." });
             }
 
             var owner = await _context.Owners.FindAsync(apartmentDto.OwnerId);
             if (owner == null)
             {
-                return NotFound("Owner not found.");
+                return NotFound(new { message = "Owner not found." });
             }
 
             
@@ -78,13 +78,13 @@ namespace ApartmentManagementSystem.Controllers
         {
             if (id != apartment.Id)
             {
-                return BadRequest("ID mismatch.");
+                return BadRequest(new { message = "ID mismatch." });
             }
 
             var oldApartment = await _context.Apartments.FirstOrDefaultAsync(a => a.Id == id);
             if (oldApartment == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Apartment not found."});
             }
 
             if (!ModelState.IsValid)
