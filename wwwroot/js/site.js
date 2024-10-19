@@ -334,6 +334,11 @@ function showAddModal() {
 function submitNewRecord() {
     console.log('submit button clicked');
     let newRecord;
+
+    const errorMessageContainer = document.getElementById('errorMessage');
+
+    errorMessageContainer.style.display = 'none';
+
     if (action === 'add') {
         switch (current) {
             case 'apartment':
@@ -408,15 +413,30 @@ function submitNewRecord() {
                 if (response.ok) {
                     console.log('Record added successfully');
                     $('#recordModal').modal('hide');
+                    switch (current) {
+                        case 'apartment':
+                            getApartments();
+                            break;
+                        case 'owner':
+                            getOwners();
+                            break;
+                        case 'tenant':
+                            getTenants();
+                            break;
+                        case 'lease':
+                            getLeaseAgreements();
+                            break;
+                    }
                 } else {
                     console.error('Error adding record');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+                errorMessageContainer.innerHTML = error.message;
+                errorMessageContainer.style.display = 'block';
             });
-    }
-    else {
+    } else {
         let newRecord;
         switch (current) {
             case 'apartment':
@@ -495,12 +515,29 @@ function submitNewRecord() {
                 if (response.ok) {
                     console.log('Record edited successfully');
                     $('#recordModal').modal('hide');
+                    switch (current) {
+                        case 'apartment':
+                            getApartments();
+                            break;
+                        case 'owner':
+                            getOwners();
+                            break;
+                        case 'tenant':
+                            getTenants();
+                            break;
+                        case 'lease':
+                            getLeaseAgreements();
+                            break;
+                    }
                 } else {
-                    console.error('Error editing record');
+                    console.error('Error editing record'); 
+                    console.log(response.text());
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+                errorMessageContainer.innerHTML = error.message;
+                errorMessageContainer.style.display = 'block';
             });
     }
 }
@@ -536,6 +573,21 @@ function deletionConfirmed() {
                 $('#deleteModal').modal('hide');
             } else {
                 console.error('Error adding record');
+            }
+
+            switch (current) {
+                case 'apartment':
+                    getApartments();
+                    break;
+                case 'owner':
+                    getOwners();
+                    break;
+                case 'tenant':
+                    getTenants();
+                    break;
+                case 'lease':
+                    getLeaseAgreements();
+                    break;
             }
         })
         .catch(error => {
