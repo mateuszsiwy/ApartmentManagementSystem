@@ -5,9 +5,23 @@ document.getElementById('ownerButton').addEventListener('click', getOwners);
 document.getElementById('tenantButton').addEventListener('click', getTenants);
 document.getElementById('leaseButton').addEventListener('click', getLeaseAgreements);
 
-document.getElementById('newRecordButton').addEventListener('click', showAddModal)
+document.getElementById('newRecordButton').addEventListener('click', showAddModal);
+document.getElementById('submitNewRecord').addEventListener('click', submitNewRecord);
+
+document.getElementById('closeButtonEdit').addEventListener('click', () =>
+{
+    $('#recordModal').modal('hide');
+})
+document.getElementById('closeButtonDelete').addEventListener('click', () => {
+    $('#deleteModal').modal('hide');
+})
+
+document.getElementById('confirmDelete').addEventListener('click', deletionConfirmed);
 
 let current = '';
+let action = '';
+let currentId;
+
 let apartmentTemplate = `
     <div class="form-group">
         <label for="recordName">Name</label>
@@ -69,8 +83,31 @@ let tenantTemplate = `
     </div>
 `;
 
+let leaseTemplate = `
+    <div class="form-group">
+        <label for="recordApartmentId">Apartment ID</label>
+        <input type="number" class="form-control" id="recordApartmentId" placeholder="Enter apartment ID">
+    </div>
+     <div class="form-group">
+        <label for="recordTenantId">Tenant ID</label>
+        <input type="number" class="form-control" id="recordTenantId" placeholder="Enter tenant ID">
+    </div>
+    <div class="form-group">
+        <label for="recordStart">Start of Lease</label>
+        <input type="date" class="form-control" id="recordStart" placeholder="Enter start of lease">
+    </div>
+    <div class="form-group">
+        <label for="recordEnd">End of Lease</label>
+        <input type="date" class="form-control" id="recordEnd" placeholder="Enter end of lease">
+    </div>
+    <div class="form-group">
+        <label for="recordRent">Rent</label>
+        <input type="text" class="form-control" id="recordRent" placeholder="Enter rent">
+    </div>
+`;
+
 function getApartments() {
-    current = 'apartments'
+    current = 'apartment'
     console.log('button clicked');
     document.getElementById('header').innerHTML = 'Apartments';
     fetch('api/apartment')
@@ -99,6 +136,10 @@ function getApartments() {
                         <td>${apartment.price}</td>
                         <td>${apartment.numberOfRooms}</td>
                         <td>${apartment.ownerId}</td> 
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editRecord(${apartment.id})">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteRecord(${apartment.id})">Delete</button>
+                        </td>
                     </tr>
                 `;
                     
@@ -116,7 +157,7 @@ function getApartments() {
 
 
 function getOwners() {
-    current = 'owners';
+    current = 'owner';
     console.log('Owners load');
     document.getElementById('header').innerHTML = 'Owners';
     fetch('api/owner')
@@ -143,6 +184,10 @@ function getOwners() {
                         <td>${owner.surname}</td>
                         <td>${owner.email}</td>
                         <td>${owner.phoneNumber}</td> 
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editRecord(${owner.id})">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteRecord(${owner.id})">Delete</button>
+                        </td>
                     </tr>
                 `;
 
@@ -160,7 +205,7 @@ function getOwners() {
 
 
 function getTenants() {
-    current = 'tenants'
+    current = 'tenant'
     console.log('Tenants load');
     document.getElementById('header').innerHTML = 'Tenants';
     fetch('api/tenant')
@@ -187,6 +232,10 @@ function getTenants() {
                         <td>${tenant.surname}</td>
                         <td>${tenant.email}</td>
                         <td>${tenant.startOfLease}</td> 
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editRecord(${tenant.id})">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteRecord(${tenant.id})">Delete</button>
+                        </td>
                     </tr>
                 `;
 
@@ -235,6 +284,10 @@ function getLeaseAgreements() {
                         <td>${leaseagreement.startOfLease}</td>
                         <td>${leaseagreement.endOfLease}</td> 
                         <td>${leaseagreement.rent}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editRecord(${leaseagreement.id})">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteRecord(${leaseagreement.id})">Delete</button>
+                        </td>
                     </tr>
                 `;
 
@@ -250,23 +303,242 @@ function getLeaseAgreements() {
         })
 }
 
+function checkAction() {
 
+}
 
 function showAddModal() {
+    action = 'add';
     switch (current) {
-        case 'apartments':
+        case 'apartment':
             document.getElementById('newRecordForm').innerHTML = apartmentTemplate;
             $('#recordModal').modal('show');
             break;
-        case 'owners':
+        case 'owner':
             document.getElementById('newRecordForm').innerHTML = ownerTemplate;
             $('#recordModal').modal('show');
             break;
-        case 'tenants':
+        case 'tenant':
             document.getElementById('newRecordForm').innerHTML = tenantTemplate;
+            $('#recordModal').modal('show');
+            break
+        case 'lease':
+            document.getElementById('newRecordForm').innerHTML = leaseTemplate;
             $('#recordModal').modal('show');
             break;
         default:
             console.log('switch statement failed');
     }
+}
+
+function submitNewRecord() {
+    console.log('submit button clicked');
+    let newRecord;
+    if (action === 'add') {
+        switch (current) {
+            case 'apartment':
+                const apartmentName = document.getElementById('recordName').value;
+                const apartmentAddress = document.getElementById('recordAddress').value;
+                const apartmentPrice = document.getElementById('recordPrice').value;
+                const apartmentRooms = document.getElementById('recordRooms').value;
+                const apartmentOwnerId = document.getElementById('recordOwnerID').value;
+
+                newRecord = {
+                    name: apartmentName,
+                    address: apartmentAddress,
+                    price: apartmentPrice,
+                    numberOfRooms: apartmentRooms,
+                    ownerId: apartmentOwnerId
+                };
+                break;
+            case 'owner':
+                const ownerName = document.getElementById('recordName').value;
+                const ownerSurname = document.getElementById('recordSurname').value;
+                const ownerEmail = document.getElementById('recordEmail').value;
+                const ownerPhone = document.getElementById('recordPhone').value;
+
+                newRecord = {
+                    name: ownerName,
+                    surname: ownerSurname,
+                    email: ownerEmail,
+                    phoneNumber: ownerPhone
+                };
+                break;
+            case 'tenant':
+                const tenantName = document.getElementById('recordName').value;
+                const tenantSurname = document.getElementById('recordSurname').value;
+                const tenantEmail = document.getElementById('recordEmail').value;
+                const tenantStartOfLease = document.getElementById('recordStart').value;
+
+                newRecord = {
+                    name: tenantName,
+                    surname: tenantSurname,
+                    email: tenantEmail,
+                    startOfLease: tenantStartOfLease
+                };
+                break;
+            case 'lease':
+                const leaseApartmentId = document.getElementById('recordApartmentId').value;
+                const leaseTenantId = document.getElementById('recordTenantId').value;
+                const leaseStart = document.getElementById('recordStart').value;
+                const leaseEnd = document.getElementById('recordEnd').value;
+                const leaseRent = document.getElementById('recordRent').value;
+
+                newRecord = {
+                    apartmentId: leaseApartmentId,
+                    tenantId: leaseTenantId,
+                    startOfLease: leaseStart,
+                    endOfLease: leaseEnd,
+                    rent: leaseRent
+                };
+                break;
+            default:
+                console.log('switch statement failed');
+                return;
+        }
+
+        fetch(`/api/${current}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newRecord)
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Record added successfully');
+                    $('#recordModal').modal('hide');
+                } else {
+                    console.error('Error adding record');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+    else {
+        let newRecord;
+        switch (current) {
+            case 'apartment':
+                const apartmentName = document.getElementById('recordName').value;
+                const apartmentAddress = document.getElementById('recordAddress').value;
+                const apartmentPrice = document.getElementById('recordPrice').value;
+                const apartmentRooms = document.getElementById('recordRooms').value;
+                const apartmentOwnerId = document.getElementById('recordOwnerID').value;
+
+                newRecord = {
+                    id: currentId,
+                    name: apartmentName,
+                    address: apartmentAddress,
+                    price: apartmentPrice,
+                    numberOfRooms: apartmentRooms,
+                    ownerId: apartmentOwnerId
+                };
+                break;
+            case 'owner':
+                const ownerName = document.getElementById('recordName').value;
+                const ownerSurname = document.getElementById('recordSurname').value;
+                const ownerEmail = document.getElementById('recordEmail').value;
+                const ownerPhone = document.getElementById('recordPhone').value;
+
+                newRecord = {
+                    id: currentId,
+                    name: ownerName,
+                    surname: ownerSurname,
+                    email: ownerEmail,
+                    phoneNumber: ownerPhone
+                };
+                break;
+            case 'tenant':
+                const tenantName = document.getElementById('recordName').value;
+                const tenantSurname = document.getElementById('recordSurname').value;
+                const tenantEmail = document.getElementById('recordEmail').value;
+                const tenantStartOfLease = document.getElementById('recordStart').value;
+
+                newRecord = {
+                    id: currentId,
+                    name: tenantName,
+                    surname: tenantSurname,
+                    email: tenantEmail,
+                    startOfLease: tenantStartOfLease
+                };
+                break;
+            case 'lease':
+                const leaseApartmentId = document.getElementById('recordApartmentId').value;
+                const leaseTenantId = document.getElementById('recordTenantId').value;
+                const leaseStart = document.getElementById('recordStart').value;
+                const leaseEnd = document.getElementById('recordEnd').value;
+                const leaseRent = document.getElementById('recordRent').value;
+
+                newRecord = {
+                    id: currentId,
+                    apartmentId: leaseApartmentId,
+                    tenantId: leaseTenantId,
+                    startOfLease: leaseStart,
+                    endOfLease: leaseEnd,
+                    rent: leaseRent
+                };
+                break;
+            default:
+                console.log('switch statement failed');
+                return;
+        }
+
+        fetch(`/api/${current}/${currentId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newRecord)
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Record edited successfully');
+                    $('#recordModal').modal('hide');
+                } else {
+                    console.error('Error editing record');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+}
+
+
+
+function editRecord(id) {
+    document.getElementById('modalTitle').innerHTML = 'Edit record';
+    showAddModal();
+    action = 'update';
+    currentId = id;
+    console.log('started editing...');
+}
+
+
+
+
+function deleteRecord(id) {
+    $('#deleteModal').modal('show');
+    currentId = id;
+}
+
+function deletionConfirmed() {
+
+    
+
+    fetch(`/api/${current}/${currentId}`, {
+        method: 'DELETE'
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log('Record deleted successfully');
+                $('#deleteModal').modal('hide');
+            } else {
+                console.error('Error adding record');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }

@@ -16,25 +16,41 @@
         <button class="btn btn-warning" id="leaseButton">Load Lease agreements</button>
         <h2 class="mt-5" id="header">Apartments</h2>
         <div id="tableContent"></div>
-        <button class="btn btn-success" id="newRecordButton">Add New Record</button> 
-    
+        <button class="btn btn-success me-4" id="newRecordButton">Add New Record</button>
+
         <div class="modal" id="recordModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add New Record</h5>
+                        <h5 class="modal-title" id="modalTitle">Add New Record</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <form id="newRecordForm">
-                            
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="submitNewRecord">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeButtonEdit">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Are you sure you want to delete?</h5>
+                    </div>
+                    <div class="modal-body">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" id="confirmDelete">Confirm</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeButtonDelete">Close</button>
                     </div>
                 </div>
             </div>
