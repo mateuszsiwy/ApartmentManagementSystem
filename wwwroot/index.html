@@ -4,14 +4,44 @@
     <meta charset="utf-8" />
     <title>AM System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div class="container flex-grow-1">
         <h1 class="text-center mt-5 mb-5">Welcome to Apartment Management System!</h1>
-        <button class="btn btn-success" id="apartmentButton">Load Apartments</button>
-        <h2 class="mt-5">Apartments</h2>
+        <button class="btn btn-success me-4" id="apartmentButton">Load Apartments</button>
+        <button class="btn btn-primary me-4" id="ownerButton">Load Owners</button>
+        <button class="btn btn-secondary me-4" id="tenantButton">Load Tenants</button>
+        <button class="btn btn-warning" id="leaseButton">Load Lease agreements</button>
+        <h2 class="mt-5" id="header">Apartments</h2>
         <div id="tableContent"></div>
+        <button class="btn btn-success" id="newRecordButton">Add New Record</button> 
+    
+        <div class="modal" id="recordModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add New Record</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="newRecordForm">
+                            
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="submitNewRecord">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 
     <script src="js/site.js" asp-append-version="true"></script>
 </body>

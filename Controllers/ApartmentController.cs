@@ -38,7 +38,7 @@ namespace ApartmentManagementSystem.Controllers
         [HttpPost]
         public async Task<ActionResult<ApartmentDTO>> PostApartment(ApartmentDTO apartmentDto)
         {
-            if (apartmentDto.OwnerId == null)
+            if (apartmentDto.OwnerId == 0)
             {
                 return BadRequest("Owner information is required.");
             }
@@ -58,6 +58,10 @@ namespace ApartmentManagementSystem.Controllers
                 NumberOfRooms = apartmentDto.NumberOfRooms,
                 OwnerId = apartmentDto.OwnerId 
             };
+            if (owner.Apartments == null)
+            {
+                owner.Apartments = new List<Apartment>();
+            }
             owner.Apartments.Add(apartment);
             if (ModelState.IsValid)
             {

@@ -16,7 +16,7 @@ Content-Type: application/json
   "address": "123 Sunset Blvd, Cityville",
   "price": "1200",
   "numberOfRooms": 3,
-  "ownerId": 1
+  "ownerId": 3
 }
 
 ###
