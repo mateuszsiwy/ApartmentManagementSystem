@@ -2,7 +2,7 @@
 
 ## Opis projektu
 
-System Management Application to aplikacja webowa, która umożliwia zarządzanie danymi za pomocą interfejsu API zgodnego z modelem Model-View. Aplikacja została stworzona z wykorzystaniem architektury klient-serwer, gdzie frontend komunikuje się z backendem poprzez API REST. System zarządza danymi przechowywanymi w bazie danych SQL Server, zbudowanej na pięciu tabelach połączonych relacjami.
+System Management Application to aplikacja webowa, która umożliwia zarządzanie danymi za pomocą interfejsu API. Aplikacja została stworzona z wykorzystaniem architektury klient-serwer, gdzie frontend komunikuje się z backendem poprzez API REST. System zarządza danymi przechowywanymi w bazie danych SQL Server, zbudowanej na pięciu tabelach połączonych relacjami.
 
 ## Technologie
 
