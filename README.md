@@ -18,16 +18,4 @@ System Management Application to aplikacja webowa, która umożliwia zarządzani
 - **Bootstrap**: Style dla interfejsu użytkownika
 - **Fetch API**: Komunikacja z backendem w celu dynamicznego pobierania danych
 
-## Instalacja i uruchomienie projektu
-
-### Wymagania:
-- .NET SDK
-- SQL Server
-- Przeglądarka obsługująca JavaScript
-
-### Krok 1: Klonowanie repozytorium
-
-Skopiuj repozytorium do lokalnego środowiska:
-```bash
-git clone https://github.com/mateuszsiwy/ApartmentManagementSystem
-cd twoje-repozytorium
+## 
